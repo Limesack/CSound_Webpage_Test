@@ -20,8 +20,8 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="Home.html">Home</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="Models.html">Models</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Presets</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">About</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Code</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">About</a>
                 </div>
             </div>
             <!-- Page content wrapper-->
@@ -52,9 +52,17 @@
                 <div class="container-fluid">
                     <h1 class="mt-4">Models</h1>
                     <p>CSound Models</p>
-                    <p>
-                      dddd
-                    </p>
+                    <p>dddd</p>
+                    <tbody>
+                      <tr class='clickable-row' data-href='url://'>
+                        <td>Blah Blah</td> <td>1234567</td> <td>£158,000</td>
+                      </tr>
+                  </tbody>
+                  jQuery(document).ready(function($) {
+                      $(".clickable-row").click(function() {
+                          window.location = $(this).data("href");
+                      });
+                  });
                 </div>
             </div>
         </div>
