@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="S.S." content="" />
-        <title>Models</title>
+        <title>Model Wind</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.png" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -50,15 +50,12 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid">
-                    <h1 class="mt-4">Models</h1>
-                    <p>CSound Models</p>
-                    <p>dddd</p>
-                  <div class="btn-group btn-group-justified">
-                    <a href="Wind.html" class="btn btn-primary mr-1">Wind</a>
-                    <a href="Rain.html" class="btn btn-primary mr-1">Rain</a>
-                    <a href="#" class="btn btn-primary mr-1">Another Model</a>
-                    <a href="#" class="btn btn-primary mr-1">Another Model</a>
-                  </div>
+                    <h1 class="mt-4">Model: Wind</h1>
+                    <p>This is a model based on Andy Farnell's PureData implementation </p>
+                    <p>Writing here will create another paragraph</p>
+
+                    <p><button id="playButton" onclick="click_this()">play</button></p>
+
                 </div>
             </div>
         </div>
@@ -66,5 +63,54 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        <!-- Starts CSound -->
+        <script src="js/csound.js"></script>
+      <!-- <script src="js/CsoundObj.js"></script> -->
+      <!-- <script src="js/CsoundNode.js"> -->
+
+        <script type="text/javascript">
+        // called by csound.js
+        function moduleDidLoad() {
+          document.getElementById('playButton').disabled = false;
+          CSOUND_AUDIO_CONTEXT.suspend();
+          csound.PlayCsd("test.csd");
+
+        }
+
+        function attachListeners() {
+
+        }
+        var count = 0;
+
+        function handleMessage(message) {
+          var element = document.getElementById('console');
+          element.value += message;
+          element.scrollTop = 99999; // focus on bottom
+          count += 1;
+          if (count == 1000) {
+            element.value = ' ';
+            count = 0;
+          }
+        }
+
+        var playing = false;
+        var started = false;
+
+        function click_this() {
+          if (playing == false) {
+            CSOUND_AUDIO_CONTEXT.resume();
+            if (started == false) {
+              console.log("\n CSound is now running");
+              started = true;
+            }
+            document.getElementById('playButton').innerText = "pause";
+            playing = true;
+          } else {
+            CSOUND_AUDIO_CONTEXT.suspend();
+            document.getElementById('playButton').innerText = "play";
+            playing = false;
+          }
+        }
+  </script>
     </body>
 </html>
