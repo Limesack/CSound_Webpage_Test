@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="S.S." content="" />
+        <title>Model: Pedestrian Beep</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.png" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css"> <!-- imports custom styling-->
+
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom bg-light">Site Content</div>
+                <div class="list-group list-group-flush">
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="index.html">Home</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="models.html">Models</a>
+<!--
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Code</a>
+                  <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">About</a>
+-->
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="models.html">Models</a></li>
+<!--
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>
+                            </ul>
+-->
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4">Model: Pedestrian Beep</h1>
+                    <p> CSound implementation of a pedestrian crossing detailed in Andy Farnell's Designing Sound (2010) </p>
+                    <p> Farnell, A. (2010). Designing Sound. The MIT Press. 24 Practical 1 Pedestrians (pp.333-336) </p>
+                    <p> The sliders below allow the user to control aspects of the sound from CSound </p>
+
+                    <html>
+                    <!-- apperance sliders -->
+                    <style>
+                        .slidecontainer {
+                            width: 100%;
+                        }
+
+                        .slider {
+                            -webkit-appearance: none;
+                            width: 50%;
+                            height: 15px;
+                            border-radius: 5px;
+                            background: #d3d3d3;
+                            outline: none;
+                            opacity: 0.7;
+                            -webkit-transition: .2s;
+                            transition: opacity .2s;
+                        }
+
+                        .slider:hover {
+                            opacity: 1;
+                        }
+
+                        .slider::-webkit-slider-thumb {
+                            -webkit-appearance: none;
+                            appearance: none;
+                            width: 25px;
+                            height: 25px;
+                            border-radius: 50%;
+                            background: #04AA6D;
+                            cursor: pointer;
+                        }
+
+                        .slider::-moz-range-thumb {
+                            width: 25px;
+                            height: 25px;
+                            border-radius: 50%;
+                            background: #04AA6D;
+                            cursor: pointer;
+                        }
+                    </style>
+                    <!-- Allows the creating of X amount of sliders for controll signals in the website -->
+                    <div id="controls">
+
+                        <script>
+
+                            function createSlider(title, name, min, max, value,step) {
+                                let sContainer = document.createElement('div');
+                                let sTitle = document.createElement('h1');
+                                sTitle.innerText = title;
+                                sContainer.appendChild(sTitle);
+
+                                let slider = document.createElement('input');
+                                slider.className = 'slider';
+                                slider.setAttribute('type', 'range');
+                                slider.setAttribute('min', min);
+                                slider.setAttribute('max', max);
+                                slider.setAttribute('step', step);
+                                slider.setAttribute('value', value);
+                                slider.setAttribute('name', name.toLowerCase());
+                                slider.setAttribute('id', name.toLowerCase());
+                                slider.oninput = function () {
+                                    let valueCont = this.parentElement.querySelector('.val');
+                                    valueCont.innerHTML = this.value;
+                                }
+                                sContainer.appendChild(slider);
+
+                                let valuePreview = document.createElement('p')
+                                valuePreview.innerHTML = `Value: <span class='val'>${min}</span>`;
+                                sContainer.appendChild(valuePreview)
+
+                                return sContainer;
+                            }
+
+                            function getSliderValue(name) {
+                                const element = document.getElementById(name);
+                                if (element) {
+                                    return parseFloat(element.value);
+                                }
+                                return 0.0;
+                            }
+
+                            function getSlider(name) {
+                                let element = document.getElementById(name);
+                                if (element) {
+                                    return element;
+                                }
+                                return false;
+                            }
+                            //Get the controls element
+                            const controls = document.getElementById('controls');
+
+
+                            //Adding new sliders          name           ID                 min   max   init  step
+                            controls.append(createSlider("Amplitude",   'pedestrian_amp',   0.01, 1,    0.5,  0.01))
+                            controls.append(createSlider("Frequency",   'pedestrian_freq',  500,  3000, 2000, 1))
+                            controls.append(createSlider("Lenght",      'pedestrian_len',   1,    10,    5,  1))
+                            controls.append(createSlider("Meta Parameter: Intensity", 'pedestrian_intensity',      0.5,    2,    1,  0.01))
+
+
+                        </script>
+
+
+                    </div>
+
+                    </html>
+
+                        </script>
+
+
+                    </div>
+                    <!-- console -->
+                    <textarea class="console" cols="55" rows="16" id="console">loading...</textarea>
+                    <!-- play button -->
+                    <p><button id="playButton" onclick="Start_playing()">play</button></p>
+
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- Starts CSound -->
+        <script src="js/csound.js"></script>
+
+        <script type="text/javascript">
+        const event = new Event('safe_csound_loaded');
+
+        let sliders = document.querySelectorAll('input[type=range]');
+        sliders.forEach(element => {
+            element.addEventListener('input',(e)=>{
+//                console.log(e.target.value,e.target.getAttribute('name'),e.target.getAttribute('id'))
+                SetParam(e.target.value,e.target.getAttribute('name'),e.target.getAttribute('id'),1,0.0);
+            })
+        });
+        document.addEventListener('safe_csound_loaded',()=>{
+            sliders.forEach(element => { element.dispatchEvent(new Event('input')) });
+        })
+
+        // called by csound.js
+        function moduleDidLoad() {
+          document.getElementById('playButton').disabled = false;
+          CSOUND_AUDIO_CONTEXT.suspend();
+
+        // dispatch initial values to sliders
+          document.dispatchEvent(event);
+
+        // which csd to played
+          csound.PlayCsd("pedestrian_beep.csd");
+        }
+
+
+        function SetParam(value,name, label, scal, off) {
+                  let val = value / scal + off;
+                  csound.SetChannel(name, val);
+                  console.log(name + ": " + val + " " + label);
+                }
+                /*
+                //Doing it individually
+                getSlider('pedestrian_amp').addEventListener('input',(e)=>{
+                    console.log(e.target.value)
+                    SetParam(e.target.value,'pedestrian_amp','label1',1,0.0);
+                })
+                //OR
+                */
+/*
+              let sliders = document.querySelectorAll('input[type=range]');
+                      sliders.forEach(element => {
+                          element.addEventListener('input',(e)=>{
+                              console.log(e.target.value)
+                              SetParam(e.target.value,e.target.getAttribute('name'),e.target.getAttribute('id'),1,0.0);
+                          })
+                      });
+                      sliders.forEach(element => { element.dispatchEvent(new Event('input')) });
+*/
+
+
+        // clear console
+         function clear_console() {
+           var element = document.getElementById('console');
+           element.value = ' ';
+           document.getElementById('playButton').
+           addEventListener('click', pause);
+         }
+
+        // print to console
+        var count = 0;
+
+        function handleMessage(message) {
+          var element = document.getElementById('console');
+          element.value += message;
+          element.scrollTop = 99999; // focus on bottom
+          count += 1;
+          if (count == 1000) {
+            element.value = ' ';
+            count = 0;
+          }
+        }
+
+        var playing = false;
+        var started = false;
+
+
+        // Starts CSound
+        function Start_playing() {
+          if (playing == false) {
+            CSOUND_AUDIO_CONTEXT.resume();
+            if (started == false) {
+              console.log("\n CSound is now running");
+              started = true;
+            }
+            document.getElementById('playButton').innerText = "pause";
+            playing = true;
+          } else {
+            CSOUND_AUDIO_CONTEXT.suspend();
+            document.getElementById('playButton').innerText = "play";
+            console.log("\n CSound is now paused");
+            playing = false;
+          }
+        }
+
+  </script>
+    </body>
+</html>
