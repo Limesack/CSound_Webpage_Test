@@ -46,7 +46,7 @@ instr police
 
     // Signal 1 and 2 are summed
         asum = amin_pow + amax_pow
-    // sclaing and shifting back to zero
+    // scaling and shifting back to zero
         asum *= 2
         asum -= 3
 
@@ -57,7 +57,9 @@ instr police
 
 // logosc 2, controlled by output from logosc 1
     // oscilator for signal 1 and 2
-    	kcps =  asum
+
+			kcps =  asum
+		//  kcps downsamp asum ; løser ikke
     	ares phasor kcps
         ares *= 2
 
@@ -115,7 +117,8 @@ instr police
 
     // adding direct and delayed signal
         asum = (ahorn_lim*0.7)+(aecho*0.5)
-
+            printks "pitch %f \n", 1, kcps
+					//	printk 0.1, kdddcps
             outs asum,asum
 endin
 
