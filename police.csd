@@ -11,6 +11,7 @@
 
 /*
 META DATA
+Bugged when ran from website
 NON FUNCTIONING IN WEBSITE
 */
 
@@ -123,6 +124,7 @@ instr police
 endin
 
 /* CONTROLL SIGNALS FROM WEBSITE
+TODO:
 delay time, feeback
 delay wet dry mix
 filter
