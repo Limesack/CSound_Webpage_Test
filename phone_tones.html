@@ -105,9 +105,7 @@
                     </style>
                     <!-- Allows the creating of X amount of sliders for control signals in the website -->
                     <div id="controls">
-
                         <script>
-
                             function createSlider(title, name, min, max, value,step) {
                                 let sContainer = document.createElement('div');
                                 let sTitle = document.createElement('h1');
@@ -193,7 +191,6 @@
         let sliders = document.querySelectorAll('input[type=range]');
         sliders.forEach(element => {
             element.addEventListener('input',(e)=>{
-//                console.log(e.target.value,e.target.getAttribute('name'),e.target.getAttribute('id'))
                 SetParam(e.target.value,e.target.getAttribute('name'),e.target.getAttribute('id'),1,0.0);
             })
         });

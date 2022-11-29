@@ -17,24 +17,23 @@ instr pedestrian_beep
 			// amplitude
 				k_control_amp init 0.5 // initial value shared by the website slider
 				k_control_amp chnget "pedestrian_amp"	// in the range 0-1
-				k_control_amp portk k_control_amp, 0.005	// portamento to avoid unwanted noise
+				k_control_amp portk k_control_amp, 0.005
 			// Frequency
 				k_control_freq init 2500
 				k_control_freq chnget "pedestrian_freq"
-				k_control_freq portk k_control_freq, 0.005	// portamento to avoid unwanted noise
+				k_control_freq portk k_control_freq, 0.005
 			// Rythm
 				k_control_rythm init 2
 				k_control_rythm chnget "pedestrian_rytm"
-				k_control_rythm portk k_control_rythm, 0.005	// portamento to avoid unwanted noise
-			// Rythm
+				k_control_rythm portk k_control_rythm, 0.005
+			// length
 				k_control_len init 4
 				k_control_len chnget "pedestrian_len"
-				k_control_len portk k_control_len, 0.005	// portamento to avoid unwanted noise
-			// Rythm
+				k_control_len portk k_control_len, 0.005
+			// intensity
 				k_control_intensity init 2
 				k_control_intensity chnget "pedestrian_intensity"
-				k_control_intensity portk k_control_intensity, 0.005	// portamento to avoid unwanted noise
-
+				k_control_intensity portk k_control_intensity, 0.005
 
 
     // metro
