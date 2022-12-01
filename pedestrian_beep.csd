@@ -5,12 +5,9 @@
 <CsInstruments>
 ; Initialize the global variables.
 
-	sr	= 44100
-	nchnls	= 2
+	sr	= 44100     // sample rate
+	nchnls	= 2     // number of channels (stereo)
 	0dbfs	= 1
-
-/* META DATA
-*/
 
 instr pedestrian_beep
 		// fetches data from website
@@ -52,7 +49,9 @@ instr pedestrian_beep
     // oscilator
         kamp = 1
         kcps = k_control_freq*k_control_intensity
-        aoscil oscili kamp, kcps
+		ifn = -1 // function table number, -1 which indicates a sine wave.
+		iphs = 0.25 // initial phase of sampling, expressed as a fraction of a cycle. 0.25 makes it a cosine
+        aoscil oscili kamp, kcps,ifn, iphs
 
     // summing and output
         aoutput = aoscil * kmute
@@ -60,9 +59,6 @@ instr pedestrian_beep
 		// scaling with control singal from website
 				aoutput *= k_control_amp
 
-/*		// not needed in current implementation
-        chnset aoutput, "pedestrian_beep_out"
-*/
 		// master stero ouput to website
 				outs aoutput, aoutput
 

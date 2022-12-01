@@ -5,15 +5,10 @@
 <CsInstruments>
 ; Initialize the global variables.
 
-	sr	= 44100
-	nchnls	= 2
+	sr	= 44100     // sample rate
+	nchnls	= 2     // number of channels (stereo)
 	0dbfs	= 1
 
-/*
-META DATA
-Bugged when ran from website
-NON FUNCTIONING IN WEBSITE
-*/
 
 instr police
   // fetches data from website
@@ -118,18 +113,11 @@ instr police
 
     // adding direct and delayed signal
         asum = (ahorn_lim*0.7)+(aecho*0.5)
-            printks "pitch %f \n", 1, kcps
+           // printks "pitch %f \n", 1, kcps
 					//	printk 0.1, kdddcps
             outs asum,asum
 endin
 
-/* CONTROLL SIGNALS FROM WEBSITE
-TODO:
-delay time, feeback
-delay wet dry mix
-filter
-CPS for phasor
-*/
 
 </CsInstruments>
 <CsScore>

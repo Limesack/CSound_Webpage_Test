@@ -5,12 +5,9 @@
 <CsInstruments>
 ; Initialize the global variables.
 
-	sr	= 44100
-	nchnls	= 2
-	0dbfs	= 1
-
-/* META DATA
-*/
+	sr	= 44100 // sample rate
+	nchnls	= 2 // stereo
+	0dbfs	= 1 // decibel full scale
 
 instr phone_tones
   // fetches data from website
@@ -39,15 +36,17 @@ instr phone_tones
 
 
     // dialtone 2
-        // sine oscilator 1
+        // cosine oscilator 1
             kamp = 1 // amplitude
             kcps = 350 // frequency in cycles per second.
-            a_dialtone_2_1 oscili kamp, kcps
+            ifn = -1 // function table number, -1 which indicates a sine wave. Shared across all instances of oscili.
+            iphs = 0.25 // initial phase of sampling .                         Shared across all instances of oscili.
+            a_dialtone_2_1 oscili kamp, kcps, ifn, iphs
 
-        // sine oscilator 2
+        // cosine oscilator 2
             kamp = 1 // amplitude
             kcps = 450 // frequency in cycles per second.
-            a_dialtone_2_2 oscili kamp, kcps
+            a_dialtone_2_2 oscili kamp, kcps, ifn, iphs
 
         // summing oscilators from oscilator 1 and 2
             a_dialtone_2_sum = a_dialtone_2_1 + a_dialtone_2_2
@@ -106,17 +105,17 @@ instr phone_tones
                 kmute = 0
             endif
 
-        // sine oscilator 1
+        // cosine oscilator 1
             kamp = 1 // amplitude
             kcps = 480*k_ring_meta // frequency in cycles per second.
-            aring_1 oscili kamp, kcps
+            aring_1 oscili kamp, kcps, ifn, iphs
 
-        // sine oscilator 2
+        // cosine oscilator 2
             kamp = 1 // amplitude
             kcps = 440*k_ring_meta // frequency in cycles per second.
-            aring_2 oscili kamp, kcps
+            aring_2 oscili kamp, kcps, ifn, iphs
 
-        // sine oscilator summing and muting
+        // cosine oscilator summing and muting
             aring_sum = (aring_1+aring_2)*kmute
 
         // approximation of the phone line and handset start
@@ -153,12 +152,12 @@ instr phone_tones
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // busy signal
-        // sine oscilator 1
+        // cosine oscilator 1
           kamp = 1 // amplitude
           kcps = 480*k_busy_meta // frequency in cycles per second.
           a_bs_oscil_1 oscili kamp, kcps
 
-        // sine oscilator 2
+        // cosine oscilator 2
           kamp = 1 // amplitude
           kcps = 620*k_busy_meta // frequency in cycles per second.
           a_bs_oscil_2 oscili kamp, kcps
@@ -166,10 +165,10 @@ instr phone_tones
         // summing oscilators from oscilator 1 and 2
           a_bs_sum_1 = a_bs_oscil_1 + a_bs_oscil_1
 
-        // sine oscilator 3
+        // cosine oscilator 3
           kamp = 1 // amplitude
-          kcps = 2*k_busy_meta // frequency in cycles per second.
-          a_bs_oscil_3 oscili kamp, kcps
+          kcps = 2*k_busy_meta // frequency in cycles per second. 
+          a_bs_oscil_3 oscili kamp, kcps, ifn, iphs
 
           a_bs_oscil_3 *= 10000
 

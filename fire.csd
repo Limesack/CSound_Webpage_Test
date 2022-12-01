@@ -5,12 +5,10 @@
 <CsInstruments>
 ; Initialize the global variables.
 
-	sr	= 44100
-	nchnls	= 2
+	sr	= 44100     // sample rate
+	nchnls	= 2     // number of channels (stereo)
 	0dbfs	= 1
 
-/* META DATA
-*/
 
 // Fire generator
 instr fire_all
@@ -139,10 +137,10 @@ instr fire_all
 								a_hissing_2_out = a_hissing_noise*k_control_hissing*1.3
 
         // pd lapping
-						// band pass filter
-							kfreq = 30*k_control_lapping // Cutoff or center frequency for each of the filters.
-							kband = 10*k_control_lapping // Bandwidth of the bandpass and bandreject filters.
-							a_lapping_noise_bp butterbp a_white_noise, kfreq, kband
+        // band pass filter
+            kfreq = 30*k_control_lapping // Cutoff or center frequency for each of the filters.
+            kband = 10*k_control_lapping // Bandwidth of the bandpass and bandreject filters.
+            a_lapping_noise_bp butterbp a_white_noise, kfreq, kband
             // highpass filter
                 khp = 25 // the response curve's half-power point, in Hertz
                 a_lapping_noise_hp atone a_lapping_noise_bp, khp
@@ -159,9 +157,9 @@ instr fire_all
 
         // pd crackles
             // control mechanism
-							kamp = 1 // amplitude.
-							kdensity = 10*k_control_crackling // average number of impulses per second.
-							k_crackle_density dust kamp, kdensity
+                kamp = 1 // amplitude.
+                kdensity = 10*k_control_crackling // average number of impulses per second.
+                k_crackle_density dust kamp, kdensity
 
             // random generator, triggered by dust
             	kmin = 0 // minimum range limit
@@ -218,14 +216,14 @@ instr fire_all
             // summing hp and lp filtered noise
                 a_hissing_noise = a_hissing_noise_lp * a_hissing_noise_hp
             // scaling
-								a_hissing_3_out = a_hissing_noise*k_control_hissing*1.3
+                a_hissing_3_out = a_hissing_noise*k_control_hissing*1.3
 
 
         // pd lapping
-					// band pass filter
-							kfreq = 30*k_control_lapping // Cutoff or center frequency for each of the filters.
-							kband = 10*k_control_lapping // Bandwidth of the bandpass and bandreject filters.
-							a_lapping_noise_bp butterbp a_white_noise, kfreq, kband
+            // band pass filter
+                kfreq = 30*k_control_lapping // Cutoff or center frequency for each of the filters.
+                kband = 10*k_control_lapping // Bandwidth of the bandpass and bandreject filters.
+                a_lapping_noise_bp butterbp a_white_noise, kfreq, kband
             // highpass filter
                 khp = 25 // the response curve's half-power point, in Hertz
                 a_lapping_noise_hp atone a_lapping_noise_bp, khp

@@ -5,12 +5,10 @@
 <CsInstruments>
 ; Initialize the global variables.
 
-	sr	= 44100
-	nchnls	= 2
+	sr	= 44100     // sample rate
+	nchnls	= 2     // number of channels (stereo)
 	0dbfs	= 1
 
-/* META DATA
-*/
 
 	// cosine table used by instrument
 	  giCosine ftgen 0, 0, 8192, 9, 1, 1, 90
@@ -87,7 +85,9 @@ instr wind
     // pd Windspeed start
         kamp = 1  // amplitude
         kcps = k_gust_speed // frequency in cycles per second.
-        aosc  oscili kamp, kcps
+		ifn = -1 // function table number, -1 which indicates a sine wave.										// shared between all intances of Oscili
+		iphs = 0.25 // initial phase of sampling, expressed as a fraction of a cycle. 0.25 makes it a cosine	// shared between all intances of Oscili
+        aosc  oscili kamp, kcps, ifn, iphs
         aosc += 1 //
         aosc *= 0.25 // reduces amplitude to between 0 and 0.25
 
@@ -157,15 +157,6 @@ instr wind
 
     // buildings
         aWhiteNoise_Buildings = aWhiteNoise
-        // kfreq = 800 // Cutoff or center frequency for each of the filters.
-        // kband = 800 // Bandwidth of the bandpass and bandreject filters.
-        // band pass filter
-        //    anoise butterbp aWhiteNoise_Buildings, kfreq, kband
-        // high pass filter and low pass filter set at lower and upper half power points
-        // lower -3 point 494, upper -3 point 1294
-        // not needed
-        // anoise atone aWhiteNoise_Buildings, 0
-        // 2 highpass filters to temporarily emulate the bandpass filter in PD
         kCutoff = 1200 // cutoff frequency for filters
         anoise tone aWhiteNoise_Buildings, kCutoff
         anoise tone anoise, kCutoff
@@ -220,8 +211,6 @@ instr wind
         // sine oscilator
 	        kamp = 1 // amplitude
 	        acps = acosil_lowpass // frequency in cycles per second.
-	        ifn = -1 // function table number, -1 which indicates a sine wave.
-	        iphs = 0 // initial phase of sampling, expressed as a fraction of a cycle.
 	        asine_output oscili kamp, acps, ifn, iphs
 
         // white noise
@@ -281,8 +270,6 @@ instr wind
         // cosine oscilator
 	        kamp = 1 // amplitude
 	        acps = aDoorways_Lim // frequency in cycles per second.
-	        ifn = -1 // function table number, -1 which indicates a sine wave.
-	        iphs = 0.25 // initial phase of sampling, expressed as a fraction of a cycle. 0.25 makes it a cosine
 	        acosil oscili kamp, acps, ifn, iphs
 
         // lowpass filter
@@ -294,8 +281,6 @@ instr wind
         // sine oscilator
 	        kamp = 1 // amplitude
 	        acps = acosil_lowpass // frequency in cycles per second.
-	        ifn = -1 // function table number, -1 which indicates a sine wave.
-	        iphs = 0 // initial phase of sampling, expressed as a fraction of a cycle.
 	        asine_output oscili kamp, acps, ifn, iphs
 
         // white noise
@@ -423,10 +408,7 @@ instr wind
         // maximum of whitenoise and atreeleaves busses
         	atreeleaves_max max aWhiteNoise_treeleaves, atreeleaves_bus1
         	atreeleaves_max *= 0.09 // scales down atreeleaves_max in order to match PD equivalent
-    /*  these might not be neccesary, but doenst reproduce the same low frequency spectrum
-        atreeleaves_max = atreeleaves_max + atreeleaves_bus1 // adds atreeleaves_bus1 back into signal due to it being missing after max opcode ?
-        atreeleaves_max -= atreeleaves_bus1
-    */
+
         // multiplies max signal and atreeleaves_bus1
         	atreeleaves_max *= atreeleaves_bus1
         // first-order highpass filters
@@ -446,10 +428,6 @@ instr wind
         	kpan = k_leaves_pan
         	atreeleaves_Out_L, atreeleaves_Out_R Farnel_Pan atreeleaves_Sum, kpan
 
-        // output from treeleaves to CSound
-//        	chnset atreeleaves_Out_L, "wind_treeleaves_L"
-//        	chnset atreeleaves_Out_R, "wind_treeleaves_R"
-
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     // Output
@@ -457,10 +435,7 @@ instr wind
     	aOutR = k_output_amp * (k_buildings_amp*(aBuilding_Out_R) + k_doorways_amp*(aDoorways1_Out_R+aDoorways2_Out_R) + k_branches_amp*(abrancheswires1_Out_R+abrancheswires2_Out_R) + k_leaves_amp*(atreeleaves_Out_R))
     // final output to CSound
 			outs aOutL, aOutR
-/*
-			chnset aOutL, "wind_L"
-    	chnset aOutR, "wind_R"
-*/
+
 endin
 
 </CsInstruments>
