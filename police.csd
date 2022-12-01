@@ -12,10 +12,15 @@
 
 instr police
   // fetches data from website
-    // amplitude
+    // speed
       k_police_speed init 0.1 // initial value shared by the website slider
       k_police_speed chnget "police_speed"	// in the range 0-1
       k_police_speed portk k_police_speed, 0.005	// portamento to avoid unwanted noise
+    // amplitude
+      k_police_amp init 0.5 // initial value shared by the website slider
+      k_police_amp chnget "police_amp"	// in the range 0-1
+      k_police_amp portk k_police_amp, 0.005	// portamento to avoid unwanted noise
+
 // logosc recreation
     // oscilator for signal 1 and 2
     	kcps =  k_police_speed
@@ -113,6 +118,7 @@ instr police
 
     // adding direct and delayed signal
         asum = (ahorn_lim*0.7)+(aecho*0.5)
+        asum *= k_police_amp
            // printks "pitch %f \n", 1, kcps
 					//	printk 0.1, kdddcps
             outs asum,asum
